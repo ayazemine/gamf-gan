@@ -1,0 +1,2 @@
+# Ablation: GAMF-GAN without the dynamic-memory module; use AFTER configs/models/gamf.yaml.
+model: {name: gamf_no_mem, hybrid_mem_res: []}

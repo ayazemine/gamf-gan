@@ -1,0 +1,82 @@
+# Shared protocol for every model, baseline and ablation (values of the published study).
+# Each run merges: base.yaml, datasets/<dataset>.yaml, models/<model>.yaml (later files win).
+seed: 0
+
+paths:
+  data_root: data          # processed subsets: data/<dataset>/
+  runs_root: runs          # runs/<dataset>/<model>/seed_<k>/
+
+data:
+  image_size: 256
+  words_num: 18            # max caption length (AttnGAN)
+  dup_hamming: 4           # test images within this dHash distance of a train/val image are rejected
+  num_workers: 3           # DataLoader workers per run (0 if workers fail)
+  # random crop 304->256 is always on; horizontal flip; no rotation / colour jitter
+  augment: {hflip: true, rotate_deg: 0, color_jitter: null}
+
+text:                      # DAMSM text encoder (Bi-LSTM)
+  embedding_dim: 300
+  hidden_dim: 256          # = word/sentence feature dim D
+  dropout: 0.5
+  sentence: mean           # s = mean of the word features; 'last' = last hidden state (AttnGAN)
+
+damsm:
+  epochs: 200
+  batch_size: 48
+  lr: 0.002
+  rnn_grad_clip: 0.25
+  gamma1: 4.0              # AttnGAN defaults
+  gamma2: 5.0
+  gamma3: 10.0
+  pretrained_backbone: true
+
+model:
+  name: gamf
+  generator: hybrid        # hybrid (GAMF-GAN) | dfgan | cascade (AttnGAN, DM-GAN) | stylegan_t
+  stages: [attn, attn, attn]   # cascade generators only
+  z_dim: 100
+  c_dim: 100
+  ngf: 32                  # cascade generators: feature channels (AttnGAN GF_DIM)
+  ndf: 64
+  d_norm: spectral         # spectral | batch
+  style_channels: 128      # Cs of the style stage
+  w_dim: 256
+  mapping_layers: 8
+  dfgan_ngf: 32            # DF-GAN backbone (DF-GAN and GAMF-GAN)
+  dfgan_ndf: 32
+
+train:
+  epochs: 120              # joint schedule; identical total for all models (fair comparison, R3-6)
+  batch_size: 32
+  schedule: joint          # all models are trained end to end
+  lr_g: 0.0002
+  lr_d: 0.0002
+  mapping_lr_mul: 0.01     # StyleGAN mapping-network learning-rate multiplier
+  betas: [0.5, 0.999]
+  amp: bf16                # bf16 (RTX 30xx) | fp16 | none
+  ema_beta: 0.999
+  log_every: 50
+  eval_every: 5            # validation FID every N epochs -> model selection + convergence curve
+  ckpt_minutes: 10         # mid-epoch checkpoint interval (power-failure safety)
+  val_samples_per_caption: 1
+
+loss:
+  lambda_adv: 1.0
+  lambda_kl: 1.0           # conditioning augmentation (AttnGAN, DM-GAN)
+  lambda_damsm: 5.0        # AttnGAN / DM-GAN / TC-StyleGAN; GAMF-GAN uses 1.0 (models/gamf.yaml)
+  lambda_mem: 0.0          # optional auxiliary losses of the code base, not used in the study
+  lambda_perc: 0.0
+  lambda_style: 0.0
+  mem_type: real_feature
+  r1_gamma: 0.0
+  perc_layers: [relu2_2, relu3_3]
+  style_layers: [relu1_2, relu2_2, relu3_3, relu4_3]
+
+eval:
+  seed: 2026
+  captions: eval           # eval: one fixed caption per test image | all: every caption
+  samples_per_caption: 5   # needed for LPIPS diversity; 5 x n_test images for FID
+  batch_size: 32
+  clip_model: openai/clip-vit-base-patch32
+  lpips_net: alex
+  r_precision_candidates: 100

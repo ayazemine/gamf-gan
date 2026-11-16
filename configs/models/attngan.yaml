@@ -1,0 +1,5 @@
+# AttnGAN re-implemented in this code base under the identical protocol.
+# Original objective only: adversarial + KL + DAMSM.
+model: {name: attngan, generator: cascade, stages: [attn, attn, attn]}
+loss: {lambda_mem: 0.0, lambda_perc: 0.0, lambda_style: 0.0}
+train: {schedule: joint}       # original end-to-end training

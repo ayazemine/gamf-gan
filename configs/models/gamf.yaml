@@ -1,0 +1,8 @@
+# GAMF-GAN (Gated Attention-Memory Fusion GAN), gamf/models/hybrid.py.
+# DF-GAN deep-fusion backbone + AttnGAN word attention (32/64/128 px) + DM-GAN dynamic memory (64 px),
+# jointly trained; discriminator = DF-GAN discriminator + frozen CLIP-ViT-B/16 feature branch.
+# Objective: hinge + MA-GP (DF-GAN) + DAMSM. Optimiser settings of DF-GAN.
+model: {name: gamf, generator: hybrid, hybrid_attn_res: [32, 64, 128], hybrid_mem_res: [64],
+        hybrid_clip: openai/clip-vit-base-patch16, hybrid_clip_layers: [4, 8, 12]}
+train: {schedule: joint, lr_g: 0.0001, lr_d: 0.0004, betas: [0.0, 0.9]}
+loss: {lambda_kl: 0.0, lambda_damsm: 1.0, lambda_mem: 0.0, lambda_perc: 0.0, lambda_style: 0.0}

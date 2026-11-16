@@ -1,0 +1,16 @@
+# Oxford-102 Flowers + captions of Reed et al. (2016). Expected raw layout:
+#   jpg/image_XXXXX.jpg
+#   text_c10/class_XXXXX/image_XXXXX.txt
+#   trainvalclasses.txt, testclasses.txt  (82 / 20 class-disjoint split)
+data:
+  name: flowers
+  format: reed
+  raw_root: raw/flowers
+  image_dir: jpg
+  split_seed: 2026
+  # all 4,000 subset images are used for training (manuscript); val/test are drawn additionally
+  subset: {train: 4000, val: 250, test: 950}
+  captions_per_image: 10
+  min_side: 256
+loss:
+  lambda_damsm: 5.0

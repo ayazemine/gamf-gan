@@ -1,0 +1,15 @@
+# MS COCO 2014. Expected raw layout:
+#   train2014/*.jpg, val2014/*.jpg
+#   annotations/captions_train2014.json, annotations/captions_val2014.json
+# train/val subsets are drawn from train2014, the test subset from val2014.
+data:
+  name: coco
+  format: coco
+  raw_root: raw/coco
+  split_seed: 2026
+  # all 6,000 subset images are used for training (manuscript); val/test are drawn additionally
+  subset: {train: 6000, val: 300, test: 1500}
+  captions_per_image: 5
+  min_side: 256
+loss:
+  lambda_damsm: 5.0        # 5 for all datasets (AttnGAN used 50 for COCO)

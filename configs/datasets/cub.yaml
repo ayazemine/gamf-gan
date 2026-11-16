@@ -1,0 +1,16 @@
+# CUB-200-2011 + captions of Reed et al. (2016). Expected raw layout (data.raw_root):
+#   images/<class_dir>/<image>.jpg        (CUB_200_2011/images)
+#   text_c10/<class_dir>/<image>.txt      (10 captions per image)
+#   trainvalclasses.txt, testclasses.txt  (150 / 50 class-disjoint split)
+data:
+  name: cub
+  format: reed
+  raw_root: raw/cub
+  image_dir: images
+  split_seed: 2026
+  # all 5,000 subset images are used for training (manuscript); val/test are drawn additionally
+  subset: {train: 5000, val: 300, test: 1200}
+  captions_per_image: 10
+  min_side: 256
+loss:
+  lambda_damsm: 5.0

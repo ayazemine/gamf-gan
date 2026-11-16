@@ -1,0 +1,14 @@
+# PyTorch with CUDA must be installed FIRST, from the PyTorch index (RTX 3090 = Ampere, sm_86):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+# (cu121 also works; check with: python -c "import torch; print(torch.cuda.is_available())")
+torch>=2.2
+torchvision>=0.17
+numpy
+scipy<1.16          # torch-fidelity 0.3.0 calls scipy.linalg.sqrtm(disp=...), removed in SciPy 1.16
+pyyaml
+pillow
+matplotlib
+psutil
+lpips==0.1.4
+torch-fidelity==0.3.0
+transformers>=4.40

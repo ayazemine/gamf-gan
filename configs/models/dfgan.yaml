@@ -1,0 +1,6 @@
+# DF-GAN (Tao et al., CVPR 2022) re-implemented as a recent single-stage baseline.
+# Original objective (hinge + MA-GP, no DAMSM) and original optimiser settings;
+# data, epochs, batch size and evaluation are identical to all other models.
+model: {name: dfgan, generator: dfgan}
+train: {schedule: joint, lr_g: 0.0001, lr_d: 0.0004, betas: [0.0, 0.9]}
+loss: {lambda_kl: 0.0, lambda_damsm: 0.0, lambda_mem: 0.0, lambda_perc: 0.0, lambda_style: 0.0}

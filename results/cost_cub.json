@@ -1,0 +1,39 @@
+{
+  "hardware": {
+    "python": "3.12.10",
+    "torch": "2.6.0+cu124",
+    "cuda": "12.4",
+    "cudnn": 90100,
+    "cpu": "AMD64 Family 23 Model 49 Stepping 0, AuthenticAMD",
+    "os": "Windows-11-10.0.26300-SP0",
+    "parallel_jobs": 1,
+    "visible_gpu": "1",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_memory_gb": 24.0,
+    "ram_gb": 127.8
+  },
+  "stylegan_t": {
+    "model": "stylegan_t",
+    "params_G_M": 7.132697,
+    "params_D_M": 31.51719,
+    "GFLOPs_per_image": 14.108014592,
+    "latency_ms_b1": 8.460900004138239,
+    "latency_ms_per_image_b16": 1.6834968755574664,
+    "peak_infer_mem_gb_b16": 0.6711769104003906,
+    "train_hours_mean": 2.2213925310858973,
+    "train_seeds": 3,
+    "epochs": 120,
+    "batch_size": 32,
+    "peak_train_mem_gb": 8.821185111999512
+  },
+  "gamf": {
+    "model": "gamf",
+    "params_G_M": 12.264713,
+    "params_D_M": 23.723079,
+    "GFLOPs_per_image": 26.022328576,
+    "latency_ms_b1": 15.017199999419972,
+    "latency_ms_per_image_b16": 2.4947843749032472,
+    "peak_infer_mem_gb_b16": 1.1166415214538574
+  },
+  "note": "Inference cost of the generator measured with gamf.analysis.cost on CUB-200-2011 configs; training hours / memory from train_stats.json (mean over 3 seeds; wall clock on a shared workstation, indicative only)."
+}

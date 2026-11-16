@@ -1,0 +1,2 @@
+# Ablation: GAMF-GAN without the CLIP branch of the discriminator; use AFTER configs/models/gamf.yaml.
+model: {name: gamf_no_clip, hybrid_clip: null}

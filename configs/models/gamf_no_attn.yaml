@@ -1,0 +1,2 @@
+# Ablation: GAMF-GAN without the word-attention modules; use AFTER configs/models/gamf.yaml.
+model: {name: gamf_no_attn, hybrid_attn_res: []}

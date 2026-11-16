@@ -1,0 +1,5 @@
+# Text-conditional StyleGAN: w = f([z; s]), constant input, AdaIN + noise, 4->256 px.
+# Adversarial + DAMSM (no CA, hence no KL).
+model: {name: stylegan_t, generator: stylegan_t}
+loss: {lambda_kl: 0.0, lambda_mem: 0.0, lambda_perc: 0.0, lambda_style: 0.0}
+train: {schedule: joint}

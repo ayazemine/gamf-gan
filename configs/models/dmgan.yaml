@@ -1,0 +1,5 @@
+# DM-GAN re-implemented: initial stage + two dynamic-memory stages.
+# Original objective only: adversarial + KL + DAMSM.
+model: {name: dmgan, generator: cascade, stages: [none, mem, mem]}
+loss: {lambda_mem: 0.0, lambda_perc: 0.0, lambda_style: 0.0}
+train: {schedule: joint}       # original end-to-end training
